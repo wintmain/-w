@@ -1,0 +1,64 @@
+#include<stdio.h>
+#include<string.h>
+bool is_illegal(char ch);
+bool is_control(char *temp);
+void reverse(char *str);
+int main(void)
+{
+	char text[100];
+	char temp[100];
+	int i,j,x=0;
+	gets(text);
+	for(i=0;text[i]!='\0';i++){
+		if(text[i]=='('){
+			for(j=i-1;j>=0;j--){
+				if(is_illegal(text[j])==true)
+					break;
+				if(text[j]!=' ')
+					temp[x++]=text[j];
+			}
+			temp[x]='\0';
+			x=0;
+			reverse(temp);
+			if(is_control(temp)==false){
+				printf("%s ",temp);
+				for(j=i+1;text[j]!='\0';j++){
+					if(text[j]!=' '&&text[j]!=','&&text[j]!=')')
+						printf("%c",text[j]);
+					else
+					if(text[j]==',')
+						printf(" ");
+					else
+					if(text[j]==')'){
+						printf(" ");
+						break;
+					}
+				}
+				printf("\n");
+			}
+		}
+	}
+	return 0;
+}
+bool is_illegal(char ch){
+	if(ch=='='||ch=='-'||ch=='+'||ch=='*'||ch=='/'||ch=='('||ch==')'||ch=='&')
+		return true;
+	else
+		return false;
+}
+bool is_control(char *temp){
+	if(strcmp(temp,"if")==0||strcmp(temp,"while")==0||strcmp(temp,"for")==0)
+		return true;
+	else
+		return false;
+}
+void reverse(char *str){
+	int p,q;
+	char t;
+	p=0,q=strlen(str)-1;
+	while(p<q){
+		t=str[p],str[p]=str[q],str[q]=t;
+		p++;
+		q--;
+	}
+}
